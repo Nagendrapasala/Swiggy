@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>Login</title>
+</head>
+<style>
+body{
+    height: 100vh;
+    background-image: linear-gradient(to bottom right, #4887d2, #765bba);
+    font-family: 'Poppins', sans-serif;
+}
+i{
+    display: inline;
+    position: relative;
+    right: 23px;
+    cursor: pointer;
+    color: #6b7280;
+}
+small{
+    color: red;
+}
+
+#main{
+    width: 25%;
+    margin: 10rem auto;
+    border: 1px solid;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: white;
+}
+div{
+    text-align: center;
+    margin: 20px auto;
+}
+form>div{
+    margin: 40px auto;
+}
+button{
+    width: 20.5rem;
+    padding: 16px 20px;
+    font-size: 20px;
+    background-image: linear-gradient(to bottom right, #4887d2, #765bba);
+    border: none;
+    color: white;
+
+}
+input{
+    font-size: 20px;
+    padding-bottom: 10px;
+    width: 20rem;
+    border: none;
+    border-bottom: 3px solid gray;
+}
+input:focus{
+    outline: none;
+}
+p{
+    font-size: 16px;
+}
+a{
+    text-decoration: none;
+    color:  #4887d2;
+}
+</style>
+<body>
+    <div id="main">
+        <h1>Login</h1>
+        <form action="">
+            <div>
+                <input type="email" id="email" placeholder="Email">
+                <i class="fa fa-trash" style="visibility: hidden;"></i>
+                <small id="email_val" class="validation"></small>
+            </div>
+            <div>
+                <input type="Password" id="pass" placeholder="Password">
+                <i class="fa fa-eye eyeposition"></i>
+                <i class="fa fa-eye-slash eyeposition"></i>
+                <small id="pass_val" class="validation"></small>
+            </div>
+            <div>
+                <button type="submit" id="login">Login</button>
+            </div>
+            <div>
+                <p>Forget <a href="#">Password</a> ?</p>
+                <p>Don't have an account ? <a href="#">Sign Up</a></p>
+            </div>
+    </form>
+    </div>
+</body>
+</html>
+<script>
+    var data = JSON.parse(localStorage.getItem('data')) || []
+    let check_email = false
+    let check_pass = false
+    disabledbtn();
+  
+    document.getElementById('email').addEventListener('keyup', checkvalid1);
+    document.getElementById('email').addEventListener('blur', checkvalid1);
+    document.getElementById('pass').addEventListener('keyup', checkvalid2);
+    document.getElementById('pass').addEventListener('blur', checkvalid2);
+
+    function disabledbtn() {
+        if (!check_email || !check_pass) {
+            document.getElementById('login').disabled = true
+            // document.getElementById('login').style.backgroundColor = 'rgba(209,213,219)'
+            document.getElementById('login').style.cursor = 'not-allowed'
+        } else {
+            document.getElementById('login').disabled = false
+            // document.getElementById('login').style.backgroundColor = 'rgba(37, 99, 235)'
+            document.getElementById('login').style.cursor = 'pointer'
+
+        }
+    }
+
+
+
+
+    function checkvalid1() {
+        var a = ValidateEmail(document.getElementById('email').value)
+        var b = document.getElementById('email_val')
+        if (!a) {
+            b.innerText = "Please enter valid email"
+            check_email = false
+        } else {
+            b.innerText = ''
+            check_email = true
+        }
+        disabledbtn()
+    }
+
+    function ValidateEmail(mail) {
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+            return (true)
+        }
+        return (false)
+    }
+
+    function checkvalid2() {
+        var a = document.getElementById('pass').value
+        var b = document.getElementById('pass_val')
+        if (a == '') {
+            b.innerText = "Password should be at least 8 characters"
+            check_pass = false
+        } else if (a != '' && a.length <= 7) {
+            console.log(a.length);
+            b.innerText = "Password should be at least 8 characters"
+            check_pass = false
+        } else {
+            b.innerText = ''
+            check_pass = true
+        }
+        disabledbtn()
+    }
+
+    document.querySelector('.fa-eye-slash').style.display = 'none'
+    document.querySelector('.fa-eye').addEventListener('click', showpass)
+
+    function showpass() {
+        document.getElementById('pass').type = 'text'
+        document.querySelector('.fa-eye').style.display = 'none'
+        document.querySelector('.fa-eye-slash').style.display = 'inline'
+        document.querySelector('.fa-eye-slash').addEventListener('click', hidepass)
+    }
+
+    function hidepass() {
+        document.getElementById('pass').type = 'password'
+        document.querySelector('.fa-eye').style.display = 'inline'
+        document.querySelector('.fa-eye-slash').style.display = 'none'
+    }
+
+    document.getElementById('login').addEventListener('click', login)
+    
+    function login() {
+        if(data.length!=0){
+        var email = document.getElementById('email').value
+        var password = document.getElementById('pass').value
+        var check
+        for (item of data) {
+            if (item.email == email && item.pass != password) {
+                check = 2
+            } 
+            if (item.pass == password && item.email != email) {
+                check = 1
+            } 
+            if (item.email == email && item.pass == password) {
+                check = 0
+                break;
+            } 
+           
+        }
+        switch (check) {
+            case 0:
+                alert("Login Successful")
+                break;
+            case 2:
+                alert("wrong Password")
+                break;
+            case 1:
+                alert("Wrong Email")
+                break;
+
+            default:
+                alert("Wrong Credentials")
+                break;
+        }
+    }else{
+        alert('Data not Found Please Sign Up.');
+    }
+    }
+</script>
