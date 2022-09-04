@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mens</title>
+    <style>
+        *{
+            margin: 0%;
+        }
+        .item{
+            display: grid;
+           width: fit-content;
+           text-align: center;
+        }
+        .item>div{
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            text-align: center;
+            padding-top: 16px;
+
+        }
+        .mensitams{
+            display: grid;
+            grid-template-columns:repeat(4,1fr);
+            gap: 20px;
+        }
+        #discount{
+            color: aqua;
+            
+        }
+        #discountpri{
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <div class="mensitams">
+
+
+
+        <div class="item"> <img src="https://sslimages.shoppersstop.com/sys-master/images/hbd/hf9/27122858721310/S22LCTWLCS2TLFS_TEAL.jpg_230Wx334H" alt="img"> 
+            <h1>Life</h1> 
+            <p>Solid Cotton I-Fit Mens Casual Shirt</p>
+    <div><h4>$500</h4>
+        <h4 id="discountpri">$1000</h4>
+    <h4 id="discount">50%</h4></div>
+</div>
+
+
+
+
+</div>
+          
+</body>
+</html>
+<script>
+    for(var i=0;i<100;i++){
+    var div=document.createElement("div")
+    div.setAttribute("class","item")
+    var img=document.createElement("img");
+    img.setAttribute('src',"https://sslimages.shoppersstop.com/sys-master/images/hbd/hf9/27122858721310/S22LCTWLCS2TLFS_TEAL.jpg_230Wx334H");
+    var h1=document.createElement("h1");
+    h1.innerText="Life"
+   var p=document.createElement("p");
+   p.innerText="Solid Cotton I-Fit Mens Casual Shirt"
+   div.append(img,h1,p);
+   var div2=document.createElement("div");
+   var h4=document.createElement("h4");
+   h4.innerText="$500"
+   var dis=document.createElement("h4");
+   dis.innerText="$1000"
+   dis.setAttribute("id","discountpri")
+   var disp=document.createElement("div");
+   disp.innerText="50%"
+   disp.setAttribute("id","discount")
+   div2.append(h4,dis,disp)
+   div.append(div2)
+   document.querySelector(".mensitams").append(div)
+    }
+</script>
